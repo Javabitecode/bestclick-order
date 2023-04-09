@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: init
+      author: JavaBiteCode
+      changes:
+        - sql:
+            sql:
+              "CREATE TABLE t_order
+               (
+                   id            UUID PRIMARY KEY,
+                   title         VARCHAR(100)             NOT NULL,
+                   description   VARCHAR(300)             NOT NULL,
+                   price         NUMERIC(11, 2)           NOT NULL,
+                   quantity      INT                      NOT NULL,
+                   quota         INT                      NOT NULL,
+                   trading_place JSONB,
+                   full_user_id  UUID                     NOT NULL,
+                   category_id   UUID                     NOT NULL,
+                   gallery_id    UUID                     NOT NULL,
+                   create_date    TIMESTAMP WITH TIME ZONE NOT NULL,
+                   update_date    TIMESTAMP WITH TIME ZONE NOT NULL,
+
+                   CONSTRAINT CHK_price CHECK (price >= 0),
+                   CONSTRAINT CHK_quota CHECK (quota >= 0)
+               );"
+  - changeSet:
+      id: init comment
+      author: JavaBiteCode
+      runOnChange: true
+      changes:
+        - sql:
+            sql:
+              "comment on column t_order.id is 'идентификатор';
+               comment on column t_order.title is 'название';
+               comment on column t_order.description is 'описание';
+               comment on column t_order.price is 'цена';
+               comment on column t_order.quantity is 'количество доступных едениц';
+               comment on column t_order.quota is 'количество дней размещения';
+               comment on column t_order.trading_place is 'место совершения сделки';
+               comment on column t_order.full_user_id is 'идентификатор принадлежности пользователя к order';
+               comment on column t_order.category_id is 'идентификатор категории Order';
+               comment on column t_order.gallery_id is 'идентификатор фото и видео прикрепленного к данному order';
+               comment on column t_order.create_date is 'дата создания сущности';
+               comment on column t_order.update_date is 'дата обновления сущности';"
